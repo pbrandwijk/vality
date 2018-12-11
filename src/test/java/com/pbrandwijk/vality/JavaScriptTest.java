@@ -22,9 +22,9 @@ public class JavaScriptTest {
 
     @Before
     public void setUp() throws Exception {
-        // create a script engine manager
+        // Create a script engine manager
         ScriptEngineManager factory = new ScriptEngineManager();
-        // create JavaScript engine
+        // Create JavaScript engine
         engine = factory.getEngineByName("JavaScript");
     }
 
@@ -34,15 +34,23 @@ public class JavaScriptTest {
 
     @Test
     public void run() throws FileNotFoundException, ScriptException {
-        String fileName = "src/main/javascript/script.js";
         Person person = new Person("Joe", 32);
 
+        // Bind the Java objects to the engine
         engine.put("logger", LoggerFactory.getLogger("JavaScript"));
         engine.put("person", person);
 
-        FileReader reader = new FileReader(fileName);
-        engine.eval(reader);
+        // First evaluate the library
+        String libraryJs = "src/main/javascript/library.js";
+        FileReader libraryJsReader = new FileReader(libraryJs);
+        engine.eval(libraryJsReader);
 
+        // Then evaluate the script
+        String scriptJs = "src/main/javascript/script.js";
+        FileReader scriptJsReader = new FileReader(scriptJs);
+        engine.eval(scriptJsReader);
+
+        // Check that the Java object has been modified correctly by the script
         assertEquals((Integer) 33, person.getAge());
     }
 }
