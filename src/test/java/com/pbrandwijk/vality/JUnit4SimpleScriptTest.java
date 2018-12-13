@@ -1,6 +1,8 @@
 package com.pbrandwijk.vality;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -11,6 +13,7 @@ import java.io.FileReader;
 
 public class JUnit4SimpleScriptTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JUnit4SimpleScriptTest.class);
     private static final String NASHORN_PROPERTY_NAME = "nashorn.args";
     private static final String NASHORN_PROPERTY_VALUE = "--language=es6";
     private static final String SCRIPT = "src/main/javascript/JUnit4SimpleScriptTest.js";
@@ -18,6 +21,7 @@ public class JUnit4SimpleScriptTest {
 
     @Test
     public void runSimpleScript() throws FileNotFoundException, ScriptException {
+        LOGGER.info("Run test runSimpleScript");
 
         // Set a system property to make sure Nashorn uses ECMAScript 6
         System.setProperty(NASHORN_PROPERTY_NAME, NASHORN_PROPERTY_VALUE);

@@ -56,6 +56,8 @@ public class JUnit4MockitoTest {
 
     @Test
     public void runWithSpyObject() throws FileNotFoundException, ScriptException {
+        LOGGER.info("Run test runWithSpyObject");
+
         // Set up a spied Person object
         Person joe = spy(new Person(PERSON_JOE_NAME, PERSON_JOE_AGE));
 
@@ -75,6 +77,8 @@ public class JUnit4MockitoTest {
 
     @Test
     public void runWithMockObject() throws FileNotFoundException, ScriptException {
+        LOGGER.info("Run test runWithMockObject");
+
         // Set up a mocked Person object
         Person jane = mock(Person.class);
         when(jane.getName()).thenReturn(PERSON_JANE_NAME);

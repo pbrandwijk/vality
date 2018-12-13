@@ -3,6 +3,7 @@ package com.pbrandwijk.vality;
 import com.pbrandwijk.vality.model.Person;
 
 import org.junit.Test;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.script.*;
 import java.io.FileNotFoundException;
@@ -12,6 +13,7 @@ import static org.junit.Assert.*;
 
 public class JUnit4WithBindingsTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JUnit4WithBindingsTest.class);
     private static final String NASHORN_PROPERTY_NAME = "nashorn.args";
     private static final String NASHORN_PROPERTY_VALUE = "--language=es6";
     private static final String LIBRARY = "src/main/javascript/library.js";
@@ -25,7 +27,8 @@ public class JUnit4WithBindingsTest {
     private static final Integer PERSON_JOE_RESULT_AGE = 33;
 
     @Test
-    public void run() throws FileNotFoundException, ScriptException {
+    public void runWithBindings() throws FileNotFoundException, ScriptException {
+        LOGGER.info("Run test runWithBindings");
 
         // Set a system property to make sure Nashorn uses ECMAScript 6
         System.setProperty(NASHORN_PROPERTY_NAME, NASHORN_PROPERTY_VALUE);
