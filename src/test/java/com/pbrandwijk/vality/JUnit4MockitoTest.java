@@ -32,6 +32,8 @@ public class JUnit4MockitoTest {
 
     @Before
     public void setUp() {
+        // Set a system property to make sure Nashorn uses ECMAScript 6
+        System.setProperty("nashorn.args", "--language=es6");
         // Initialize a script engine manager
         ScriptEngineManager factory = new ScriptEngineManager();
         // Create JavaScript engine for the test
