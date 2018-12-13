@@ -14,9 +14,9 @@ import java.io.FileReader;
 
 import static org.junit.Assert.*;
 
-public class JavaScriptTest {
+public class JUnit4WithBindingsTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaScriptTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JUnit4WithBindingsTest.class);
 
     ScriptEngine engine;
 
