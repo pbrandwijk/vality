@@ -89,7 +89,7 @@ public class JUnit4MockitoTest {
         engine.eval(new FileReader(SCRIPT));
 
         // Check that the mocked Java object has not been modified by the script
-        assertEquals((Integer) PERSON_JANE_RESULT_AGE, jane.getAge());
+        assertEquals(PERSON_JANE_RESULT_AGE, jane.getAge());
         // But verify that setAge(33) was actually called on the object
         verify(jane).setAge(PERSON_JANE_EXPECTED_SET_AGE);
     }

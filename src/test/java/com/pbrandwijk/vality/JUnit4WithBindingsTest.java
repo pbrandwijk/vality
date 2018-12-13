@@ -1,14 +1,10 @@
 package com.pbrandwijk.vality;
 
 import com.pbrandwijk.vality.model.Person;
-import org.junit.After;
-import org.junit.Before;
+
 import org.junit.Test;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.script.*;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
@@ -16,41 +12,41 @@ import static org.junit.Assert.*;
 
 public class JUnit4WithBindingsTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JUnit4WithBindingsTest.class);
-
-    ScriptEngine engine;
-
-    @Before
-    public void setUp() throws Exception {
-        // Create a script engine manager
-        ScriptEngineManager factory = new ScriptEngineManager();
-        // Create JavaScript engine
-        engine = factory.getEngineByName("JavaScript");
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
+    private static final String NASHORN_PROPERTY_NAME = "nashorn.args";
+    private static final String NASHORN_PROPERTY_VALUE = "--language=es6";
+    private static final String LIBRARY = "src/main/javascript/library.js";
+    private static final String SCRIPT = "src/main/javascript/JUnit4WithBindingsTest.js";
+    private static final String ENGINE_SHORT_NAME = "JavaScript";
+    private static final String LOGGER_VAR_NAME = "logger";
+    private static final String LOGGER_PREFIX = "JavaScript";
+    private static final String PERSON_VAR_NAME = "person";
+    private static final String PERSON_JOE_NAME = "Joe";
+    private static final Integer PERSON_JOE_AGE = 32;
+    private static final Integer PERSON_JOE_RESULT_AGE = 33;
 
     @Test
     public void run() throws FileNotFoundException, ScriptException {
-        Person person = new Person("Joe", 32);
 
-        // Bind the Java objects to the engine
-        engine.put("logger", LoggerFactory.getLogger("JavaScript"));
-        engine.put("person", person);
+        // Set a system property to make sure Nashorn uses ECMAScript 6
+        System.setProperty(NASHORN_PROPERTY_NAME, NASHORN_PROPERTY_VALUE);
+        // Initialize a script engine manager
+        ScriptEngineManager factory = new ScriptEngineManager();
+        // Create JavaScript engine for the test
+        ScriptEngine engine = factory.getEngineByName(ENGINE_SHORT_NAME);
 
-        // First evaluate the library
-        String libraryJs = "src/main/javascript/library.js";
-        FileReader libraryJsReader = new FileReader(libraryJs);
-        engine.eval(libraryJsReader);
+        // Create a test Person object
+        Person person = new Person(PERSON_JOE_NAME, PERSON_JOE_AGE);
 
+        // Bind the a logger and the person object to the engine
+        engine.put(LOGGER_VAR_NAME, LoggerFactory.getLogger(LOGGER_PREFIX));
+        engine.put(PERSON_VAR_NAME, person);
+
+        // First evaluate the library so its functions are available
+        engine.eval(new FileReader(LIBRARY));
         // Then evaluate the script
-        String scriptJs = "src/main/javascript/script.js";
-        FileReader scriptJsReader = new FileReader(scriptJs);
-        engine.eval(scriptJsReader);
+        engine.eval(new FileReader(SCRIPT));
 
         // Check that the Java object has been modified correctly by the script
-        assertEquals((Integer) 33, person.getAge());
+        assertEquals(PERSON_JOE_RESULT_AGE, person.getAge());
     }
 }

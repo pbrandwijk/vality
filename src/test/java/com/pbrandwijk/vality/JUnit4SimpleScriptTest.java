@@ -16,8 +16,6 @@ public class JUnit4SimpleScriptTest {
     private static final String SCRIPT = "src/main/javascript/JUnit4SimpleScriptTest.js";
     private static final String ENGINE_SHORT_NAME = "JavaScript";
 
-    private ScriptEngine engine;
-
     @Test
     public void runSimpleScript() throws FileNotFoundException, ScriptException {
 
@@ -26,7 +24,7 @@ public class JUnit4SimpleScriptTest {
         // Initialize a script engine manager
         ScriptEngineManager factory = new ScriptEngineManager();
         // Create JavaScript engine for the test
-        engine = factory.getEngineByName(ENGINE_SHORT_NAME);
+        ScriptEngine engine = factory.getEngineByName(ENGINE_SHORT_NAME);
 
         // Evaluate the script
         engine.eval(new FileReader(SCRIPT));
